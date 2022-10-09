@@ -1,0 +1,90 @@
+f6=function(x)
+  return(2*exp(-x)-(1/(x+2))-(1/(x+1)))
+
+
+bisection_and_regular_falsi=function(f,method){
+  x=0
+  yp=0
+  while(1){
+    yc=f(x)
+    if(yp*yc<0)
+      break
+    yp=yc
+    x=x+1
+  }
+  b=x
+  a=x-1
+  midp=b
+  while(1){
+    if(method=="b")
+      mid=(a+b)/2
+    else if(method=="rf")
+      mid=(a*f(b)-b*f(a))/(f(b)-f(a))
+    if(abs(f(mid)-f(midp))<=1/exp(4))
+      break
+    if(f(a)*f(mid)<0)
+      b=mid
+    else if(f(mid)*f(b)<0)
+      a=mid
+    midp=mid
+  }
+  print(mid)
+  #print(f(mid))
+}
+newton_raphson=function(f,expf){
+  df=function(arg1){
+    r=D(expf,'x')
+    x=arg1
+    return(eval(r))
+  }
+  x=0
+  yp=0
+  while(1){
+    yc=f(x)
+    if(yp*yc<0)
+      break
+    yp=yc
+    x=x+1
+  }
+  b=x
+  a=x-1
+  dist_a_z=abs(f(a)-0)
+  dist_b_z=abs(f(b)-0)
+  if(dist_a_z<dist_b_z)
+    x0=a
+  else if(dist_b_z<dist_a_z)
+    x0=b
+  x1=x0-(f(x0)/df(x0))
+  x2=x1-(f(x1)/df(x1))
+  print(x2)
+}
+
+gx=function(x)
+  return(-log(((1/(x+1))+(1/(x+2)))/2))
+
+fixed_point=function(f){
+  x=0
+  yp=0
+  while(1){
+    yc=f(x)
+    if(yp*yc<0)
+      break
+    yp=yc
+    x=x+1
+  }
+  b=x
+  a=x-1
+  x=(a+b)/2
+  xp=0
+  while(1){
+    if(abs(xp-x)<(1/exp(5)))
+      break
+    xp=x
+    x=gx(x)
+  }
+  print(x)
+}
+fixed_point(f6)
+bisection_and_regular_falsi(f6,"b")
+bisection_and_regular_falsi(f6,"rf")
+newton_raphson(f6,expression(2*exp(-x)-(1/(x+2))-(1/(x+1))))

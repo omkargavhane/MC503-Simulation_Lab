@@ -1,0 +1,31 @@
+f3=function(x)
+  return(exp(x)-1-x-(x**2/2)-(x**3/6)*exp(0.3*x))
+
+newton_raphson=function(f,expf){
+  df=function(arg1){
+    r=D(expf,'x')
+    x=arg1
+    return(eval(r))
+  }
+  x=0
+  yp=0
+  while(1){
+    yc=f(x)
+    if(yp*yc<0)
+      break
+    yp=yc
+    x=x+1
+  }
+  b=x
+  a=x-1
+  dist_a_z=abs(f(a)-0)
+  dist_b_z=abs(f(b)-0)
+  if(dist_a_z<dist_b_z)
+    x0=a
+  else if(dist_b_z<dist_a_z)
+    x0=b
+  x1=x0-(f(x0)/df(x0))
+  x2=x1-(f(x1)/df(x1))
+  print(x2)
+}
+newton_raphson(f3,expression(exp(-1)-1-x-(x**2/2)-(x**3/6)*exp(0.3*x)))

@@ -1,0 +1,32 @@
+f4=function(x)
+  return(x**3+4*x**2-10)
+gx=function(x)
+  return(((10-x^3)^0.5)/2)
+
+#return((10-4*x**2)**(1/3))
+
+fixed_point=function(f){
+  x=0
+  yp=0
+  while(1){
+    yc=f(x)
+    if(yp*yc<0)
+      break
+    yp=yc
+    x=x+1
+  }
+  b=x
+  a=x-1
+  print(a)
+  print(b)
+  x=(a+b)/2
+  xp=0
+  while(1){
+    if(abs(xp-x)<(1/exp(5)))
+      break
+    xp=x
+    x=gx(x)
+  }
+  print(x)
+}
+fixed_point(f4)
